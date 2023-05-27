@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            margin: 0;
+            padding: 1%;
+            background-color: #fefefe;
+        }
+
+        h1 {
+            font-family: Helvetica, sans-serif;
+            text-align: center;
+            background-color: #344c68;
+            color: #FFFFFF;
+            padding: 1%;
+            margin-top: 0;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 1%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5%;
+            font-family: Helvetica, sans-serif;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 0.5%;
+            margin-bottom: 0.5%;
+            border: 1px solid #CCC;
+            border-radius: 4px;
+            height: 25px;
+            font-family: Helvetica, sans-serif;
+        }
+
+        button[type="submit"] {
+            padding: 0.5% 1%;
+            background-color: #344c68;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #344c68;
+            color: #FFFFFF;
+            padding: 0.5%;
+            text-align: left;
+        }
+
+        td {
+            padding: 0.5%;
+            border-bottom: 1px solid #CCC;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        a {
+            display: inline-block;
+            padding: 0.5% 1%;
+            background-color: #344c68;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            margin-bottom: 1%;
+        }
+
+        a:hover {
+            background-color: #1c2938;
+        }
+
+        .add_expenses {
+            background-color: #ffffff;
+            width: 47.5%;
+            float: left;
+            height: 400px;
+            margin-bottom: 1%;
+            box-shadow: -2px 2px 5px 6px #ccc;
+            padding: 1%;
+            border-radius: 4px;
+        }
+
+        .spacer1 {
+            width: 1%;
+            float: left;
+            opacity: 0;
+            height: 500px;
+        }
+
+        .pie_chart {
+            background-color: #ffffff;
+            width: 47.5%;
+            float: left;
+            height: 400px;
+            margin-bottom: 1%;
+            box-shadow: 2px 2px 5px 6px #ccc;
+            padding: 1%;
+            border-radius: 4px;
+        }
+
+        .spacer100 {
+            width: 100%;
+            float: left;
+        }
+
+        .view-chart {
+            background-color: #344c68;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 4px;
+            padding: 0.5% 1%;
+            margin-top: 1%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-chart:hover {
+            background-color: #1c2938;
+        }
+    </style>
+</head>
+<body>
+    <h1>Personal Finance Tracker</h1>
+    <div class="spacer100">
+        <a href="/expenses">Expenses</a>
+    </div>
+    <div class="add_expenses">
+        <form action="/" method="POST">
+            <label for="name">Expense Name:</label>
+            <input type="text" id="name" name="name" placeholder="Expense Name" required>
+    
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" placeholder="Amount" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" placeholder="Category" required>
+    
+            <button type="submit">Add Expense</button>
+        </form>
+    </div>
+    <div class="spacer1">1</div>
+    <div class="pie_chart">
+        {% if chart %}
+            <img src="data:image/png;base64,{{ chart }}" alt="Pie Chart">
+        {% else %}
+            <p>No data available for pie chart</p>
+        {% endif %}
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Value</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ '{:.2f}'.format(expense['amount']) }}</td>
+                    <td>{{ expense.date }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>{{ expense.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="spacer2"></div>
+</body>
+</html>
